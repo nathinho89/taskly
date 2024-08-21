@@ -39,10 +39,7 @@ export function ShoppingListItem({ name, isCompleted }: ShoppingListItemProps) {
         {name}
       </Text>
       <TouchableOpacity
-        style={[
-          styles.shoppingItemBtn,
-          isCompleted ? styles.shoppingItemBtnCompleted : undefined,
-        ]}
+        style={styles.shoppingItemBtn}
         onPress={handleDelete}
         activeOpacity={0.8}
         aria-label="Delete"
@@ -80,11 +77,6 @@ const styles = StyleSheet.create({
     textDecorationColor: theme.colorLightGray,
   },
   shoppingItemBtn: {
-    backgroundColor: theme.colorBlack,
     padding: 8,
-    borderRadius: 6,
-  },
-  shoppingItemBtnCompleted: {
-    backgroundColor: theme.colorGrey,
   },
 });
