@@ -27,6 +27,13 @@ export default function App() {
     }
   };
 
+  const handleDelete = (id: string) => {
+    return () => {
+      const newList = list.filter((item) => item.id !== id);
+      setList(newList);
+    };
+  };
+
   return (
     <FlatList
       style={styles.home}
@@ -48,7 +55,9 @@ export default function App() {
       }
       stickyHeaderIndices={[0]}
       data={list}
-      renderItem={({ item }) => <ShoppingListItem name={item.name} />}
+      renderItem={({ item }) => (
+        <ShoppingListItem name={item.name} onDelete={handleDelete(item.id)} />
+      )}
     />
   );
 }

@@ -5,9 +5,14 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 type ShoppingListItemProps = {
   name: string;
   isCompleted?: boolean;
+  onDelete: () => void;
 };
 
-export function ShoppingListItem({ name, isCompleted }: ShoppingListItemProps) {
+export function ShoppingListItem({
+  name,
+  isCompleted,
+  onDelete,
+}: ShoppingListItemProps) {
   const handleDelete = () => {
     Alert.alert(
       `Are you sure you want to delete ${name}?`,
@@ -15,7 +20,7 @@ export function ShoppingListItem({ name, isCompleted }: ShoppingListItemProps) {
       [
         {
           text: 'Yes',
-          onPress: () => console.log('Ok, deleting'),
+          onPress: () => onDelete(),
           style: 'destructive',
         },
         { text: 'Cancel', style: 'cancel' },
