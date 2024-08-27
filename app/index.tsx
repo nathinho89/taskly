@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { ScrollView, StyleSheet, TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { theme } from '../theme';
 import { ShoppingListItem } from '../components/ShoppingListItem';
@@ -34,7 +34,11 @@ export default function App() {
   };
 
   return (
-    <View style={styles.home}>
+    <ScrollView
+      style={styles.home}
+      contentContainerStyle={styles.homeContentContainer}
+      stickyHeaderIndices={[0]}
+    >
       <TextInput
         style={styles.homeTextInput}
         placeholder="E.g. Coffee"
@@ -48,7 +52,7 @@ export default function App() {
         <ShoppingListItem key={item.id} name={item.name} />
       ))}
       <StatusBar style="auto" />
-    </View>
+    </ScrollView>
   );
 }
 
@@ -56,6 +60,10 @@ const styles = StyleSheet.create({
   home: {
     flex: 1,
     backgroundColor: theme.colorWhite,
+    padding: 12,
+  },
+  homeContentContainer: {
+    paddingBottom: 24,
   },
   homeTextInput: {
     borderColor: theme.colorLightGray,
@@ -65,5 +73,6 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     fontSize: 18,
     borderRadius: 50,
+    backgroundColor: theme.colorWhite,
   },
 });
