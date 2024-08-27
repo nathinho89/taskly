@@ -7,6 +7,7 @@ import { ShoppingListItem } from '../components/ShoppingListItem';
 type ShoppingListItemType = {
   id: string;
   name: string;
+  completedAtTimestamp?: number;
 };
 
 export default function App() {
@@ -34,6 +35,21 @@ export default function App() {
     };
   };
 
+  const handleToggleComplete = (id: string) => {
+    const newList = list.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          completedAtTimestamp: item.completedAtTimestamp
+            ? undefined
+            : Date.now(),
+        };
+      }
+      return item;
+    });
+    setList(newList);
+  };
+
   return (
     <FlatList
       style={styles.home}
@@ -56,7 +72,12 @@ export default function App() {
       stickyHeaderIndices={[0]}
       data={list}
       renderItem={({ item }) => (
-        <ShoppingListItem name={item.name} onDelete={handleDelete(item.id)} />
+        <ShoppingListItem
+          name={item.name}
+          onDelete={() => handleDelete(item.id)}
+          onToggleComplete={() => handleToggleComplete(item.id)}
+          isCompleted={Boolean(item.completedAtTimestamp)}
+        />
       )}
     />
   );
