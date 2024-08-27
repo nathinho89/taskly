@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ScrollView, StyleSheet, TextInput } from 'react-native';
+import { FlatList, StyleSheet, TextInput, View, Text } from 'react-native';
 import React, { useState } from 'react';
 import { theme } from '../theme';
 import { ShoppingListItem } from '../components/ShoppingListItem';
@@ -9,14 +9,8 @@ type ShoppingListItemType = {
   name: string;
 };
 
-const initialList: ShoppingListItemType[] = [
-  { id: '1', name: 'Coffee' },
-  { id: '2', name: 'Tea' },
-  { id: '3', name: 'Sugar' },
-];
-
 export default function App() {
-  const [list, setList] = useState(initialList);
+  const [list, setList] = useState([] as ShoppingListItemType[]);
   const [value, setValue] = useState('');
 
   const handleSubmit = () => {
@@ -34,25 +28,28 @@ export default function App() {
   };
 
   return (
-    <ScrollView
+    <FlatList
       style={styles.home}
       contentContainerStyle={styles.homeContentContainer}
+      ListHeaderComponent={
+        <TextInput
+          value={value}
+          style={styles.homeTextInput}
+          onChangeText={setValue}
+          placeholder="E.g. Coffee"
+          onSubmitEditing={handleSubmit}
+          returnKeyType="done"
+        />
+      }
+      ListEmptyComponent={
+        <View style={styles.homeEmptyContainer}>
+          <Text>Your shopping list is empty</Text>
+        </View>
+      }
       stickyHeaderIndices={[0]}
-    >
-      <TextInput
-        style={styles.homeTextInput}
-        placeholder="E.g. Coffee"
-        value={value}
-        onChangeText={setValue}
-        keyboardType="default"
-        returnKeyType="done"
-        onSubmitEditing={handleSubmit}
-      />
-      {list.map((item) => (
-        <ShoppingListItem key={item.id} name={item.name} />
-      ))}
-      <StatusBar style="auto" />
-    </ScrollView>
+      data={list}
+      renderItem={({ item }) => <ShoppingListItem name={item.name} />}
+    />
   );
 }
 
@@ -74,5 +71,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderRadius: 50,
     backgroundColor: theme.colorWhite,
+  },
+  homeEmptyContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 18,
   },
 });
