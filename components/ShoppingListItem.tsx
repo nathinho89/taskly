@@ -4,8 +4,10 @@ import {
   TouchableOpacity,
   Alert,
   Pressable,
+  View,
 } from 'react-native';
 import { theme } from '../theme';
+import EnTypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 type ShoppingListItemProps = {
@@ -44,14 +46,22 @@ export function ShoppingListItem({
       ]}
       onPress={onToggleComplete}
     >
-      <Text
-        style={[
-          styles.shoppingItemText,
-          isCompleted ? styles.shoppingItemTextCompleted : undefined,
-        ]}
-      >
-        {name}
-      </Text>
+      <View style={styles.shoppingItemRow}>
+        <EnTypo
+          name={isCompleted ? 'check' : 'circle'}
+          size={24}
+          color={isCompleted ? theme.colorGrey : theme.colorCerulian }
+        />
+        <Text
+          style={[
+            styles.shoppingItemText,
+            isCompleted ? styles.shoppingItemTextCompleted : undefined,
+          ]}
+        >
+          {name}
+        </Text>
+      </View>
+
       <TouchableOpacity
         style={styles.shoppingItemBtn}
         onPress={handleDelete}
@@ -85,6 +95,7 @@ const styles = StyleSheet.create({
   shoppingItemText: {
     fontSize: 18,
     fontWeight: '200',
+    flex: 1,
   },
   shoppingItemTextCompleted: {
     textDecorationLine: 'line-through',
@@ -92,5 +103,10 @@ const styles = StyleSheet.create({
   },
   shoppingItemBtn: {
     padding: 8,
+  },
+  shoppingItemRow: {
+    flexDirection: 'row',
+    gap: 4,
+    flex: 1,
   },
 });
