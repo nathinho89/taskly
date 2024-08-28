@@ -50,7 +50,7 @@ export function ShoppingListItem({
         <EnTypo
           name={isCompleted ? 'check' : 'circle'}
           size={24}
-          color={isCompleted ? theme.colorGrey : theme.colorCerulian }
+          color={isCompleted ? theme.colorGrey : theme.colorCerulian}
         />
         <Text
           style={[

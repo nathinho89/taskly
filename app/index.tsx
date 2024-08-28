@@ -8,6 +8,7 @@ type ShoppingListItemType = {
   id: string;
   name: string;
   completedAtTimestamp?: number;
+  lastUpdatedTimestamp: number;
 };
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
         {
           id: new Date().toISOString(),
           name: value,
+          lastUpdatedTimestamp: Date.now(),
         },
         ...list,
       ];
@@ -43,12 +45,21 @@ export default function App() {
           completedAtTimestamp: item.completedAtTimestamp
             ? undefined
             : Date.now(),
+          lastUpdatedTimestamp: Date.now(),
         };
       }
       return item;
     });
     setList(newList);
   };
+
+  function orderShoppingList(shoppingList: ShoppingListItemType[]) {
+    return shoppingList.sort(
+      (item1, item2) =>
+        (item1.completedAtTimestamp ?? 0) - (item2.completedAtTimestamp ?? 0) ||
+        item1.lastUpdatedTimestamp - item2.lastUpdatedTimestamp,
+    );
+  }
 
   return (
     <FlatList
@@ -70,7 +81,7 @@ export default function App() {
         </View>
       }
       stickyHeaderIndices={[0]}
-      data={list}
+      data={orderShoppingList(list)}
       renderItem={({ item }) => (
         <ShoppingListItem
           name={item.name}
