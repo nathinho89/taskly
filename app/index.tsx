@@ -1,5 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
-import { FlatList, StyleSheet, TextInput, View, Text } from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  TextInput,
+  View,
+  Text,
+  LayoutAnimation,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { theme } from '../theme';
 import { ShoppingListItem } from '../components/ShoppingListItem';
@@ -19,13 +25,14 @@ export default function App() {
   const [value, setValue] = useState('');
 
   useEffect(() => {
-    const fetchIntialList = async () => {
+    const fetchInitialList = async () => {
       const data = await getFromStorage<ShoppingListItemType[]>(storageKey);
       if (data) {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setList(data);
       }
     };
-    fetchIntialList();
+    fetchInitialList();
   }, []);
 
   const handleSubmit = () => {
@@ -38,6 +45,7 @@ export default function App() {
         },
         ...list,
       ];
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setList(newList);
       saveToStorage(storageKey, newList);
       setValue('');
@@ -47,6 +55,7 @@ export default function App() {
   const handleDelete = (id: string) => {
     return () => {
       const newList = list.filter((item) => item.id !== id);
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setList(newList);
       saveToStorage(storageKey, newList);
     };
@@ -65,6 +74,7 @@ export default function App() {
       }
       return item;
     });
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setList(newList);
     saveToStorage(storageKey, newList);
   };
